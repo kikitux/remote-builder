@@ -27,7 +27,6 @@ EOF
 
 gcloud compute instances create \
        ${INSTANCE_ARGS} ${INSTANCE_NAME} \
-       --image nestedvbox \
        --metadata block-project-ssh-keys=TRUE \
        --metadata-from-file ssh-keys=ssh-keys
 
