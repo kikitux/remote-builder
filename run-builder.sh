@@ -32,6 +32,7 @@ gcloud compute instances create \
 
 retry=5
 i=1
+set +e
 while [ ${i} -lt ${retry} ]; do
        gcloud compute ssh --ssh-key-file=${KEYNAME} ${USERNAME}@${INSTANCE_NAME} -- "echo instance now up"
        [ $? -eq 0 ] && break
@@ -43,6 +44,7 @@ unset retry
 unset i
 
 trap cleanup EXIT
+set -e
 
 gcloud compute scp --compress --recurse \
        $(pwd) ${USERNAME}@${INSTANCE_NAME}:${REMOTE_WORKSPACE} \
