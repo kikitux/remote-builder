@@ -6,10 +6,10 @@ function cleanup {
 }
 
 # Configurable parameters
-[ -z "$COMMAND" ] && echo "Need to set COMMAND" && exit 1;
+[ -z "${COMMAND}" ] && echo "Need to set COMMAND" && exit 1;
 
 # show env
-[ "$SHOWENV" ] && env
+[ "${SHOWENV}" ] && env
 
 USERNAME=${USERNAME:-admin}
 REMOTE_WORKSPACE=${REMOTE_WORKSPACE:-/home/${USERNAME}/workspace/}
@@ -63,7 +63,7 @@ time gcloud compute scp --compress --recurse \
 set +e
 
 # show ls
-[ "$SHOWLS" ] && ls -alh
+[ "${SHOWLS}" ] && ls -alh
 
 # show du
-[ "$SHOWDU" ] && du -sh *
+[ "${SHOWDU}" ] && du -sh *
