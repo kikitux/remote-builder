@@ -18,16 +18,18 @@ ZONE=${ZONE:-us-central1-f}
 INSTANCE_ARGS=${INSTANCE_ARGS:---preemptible}
 KEYNAME=builder-key
 
-set -e
-gcloud config set compute/zone ${ZONE}
+# create ssh KEYNAME
+[ -f ${KEYNAME} ] || {
+  ssh-keygen -t rsa -N "" -f ${KEYNAME} -C ${USERNAME}
+  chmod 400 ${KEYNAME}*
 
-# TODO Need to be able to detect whether a ssh key was already created
-ssh-keygen -t rsa -N "" -f ${KEYNAME} -C ${USERNAME} || true
-chmod 400 ${KEYNAME}*
-
-cat > ssh-keys <<EOF
+  cat > ssh-keys <<EOF
 ${USERNAME}:$(cat ${KEYNAME}.pub)
 EOF
+}
+
+set -e
+gcloud config set compute/zone ${ZONE}
 
 time gcloud compute instances create \
        ${INSTANCE_ARGS} ${INSTANCE_NAME} \
