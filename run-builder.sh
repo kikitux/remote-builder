@@ -60,6 +60,8 @@ time gcloud compute scp --compress --recurse \
        ${USERNAME}@${INSTANCE_NAME}:${REMOTE_WORKSPACE}* $(pwd) \
        --ssh-key-file=${KEYNAME}
 
+set +e
+
 # show ls
 [ -z "$SHOWLS" ] && ls -alh
 
