@@ -30,6 +30,8 @@ gcloud compute instances create \
        --metadata block-project-ssh-keys=TRUE \
        --metadata-from-file ssh-keys=ssh-keys
 
+sleep 5
+
 trap cleanup EXIT
 
 gcloud compute scp --compress --recurse \
