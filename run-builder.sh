@@ -9,7 +9,7 @@ function cleanup {
 [ -z "$COMMAND" ] && echo "Need to set COMMAND" && exit 1;
 
 # show env
-[ -z "$SHOWENV" ] && env
+[ "$SHOWENV" ] && env
 
 USERNAME=${USERNAME:-admin}
 REMOTE_WORKSPACE=${REMOTE_WORKSPACE:-/home/${USERNAME}/workspace/}
@@ -63,7 +63,7 @@ time gcloud compute scp --compress --recurse \
 set +e
 
 # show ls
-[ -z "$SHOWLS" ] && ls -alh
+[ "$SHOWLS" ] && ls -alh
 
 # show du
-[ -z "$SHOWDU" ] && du -sh *
+[ "$SHOWDU" ] && du -sh *
