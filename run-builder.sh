@@ -34,13 +34,13 @@ gcloud compute instances create \
        --metadata-from-file ssh-keys=ssh-keys
 
 retry=5
-i=1
+i=0
 set +e
 while [ ${i} -lt ${retry} ]; do
        gcloud compute ssh --ssh-key-file=${KEYNAME} ${USERNAME}@${INSTANCE_NAME} -- "echo instance now up"
        [ $? -eq 0 ] && break
        let i++
-       sleep 3
+       sleep 4
 done
 
 unset retry
