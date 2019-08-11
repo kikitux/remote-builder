@@ -49,17 +49,16 @@ unset i
 trap cleanup EXIT
 set -e
 
-gcloud compute scp --compress --recurse \
+time gcloud compute scp --compress --recurse \
        $(pwd) ${USERNAME}@${INSTANCE_NAME}:${REMOTE_WORKSPACE} \
        --ssh-key-file=${KEYNAME}
 
-gcloud compute ssh --ssh-key-file=${KEYNAME} \
+time gcloud compute ssh --ssh-key-file=${KEYNAME} \
        ${USERNAME}@${INSTANCE_NAME} -- ${COMMAND}
 
-gcloud compute scp --compress --recurse \
+time gcloud compute scp --compress --recurse \
        ${USERNAME}@${INSTANCE_NAME}:${REMOTE_WORKSPACE}* $(pwd) \
        --ssh-key-file=${KEYNAME}
-
 
 # show ls
 [ -z "$SHOWLS" ] && ls -alh
