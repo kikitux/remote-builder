@@ -30,7 +30,17 @@ gcloud compute instances create \
        --metadata block-project-ssh-keys=TRUE \
        --metadata-from-file ssh-keys=ssh-keys
 
-sleep 5
+retry=5
+i=1
+while [ ${i} -lt ${retry} ]; do
+       gcloud compute ssh --ssh-key-file=${KEYNAME} ${USERNAME}@${INSTANCE_NAME} -- "echo instance now up"
+       [ $? -eq 0 ] && break
+       let i++
+       sleep 3
+done
+
+unset retry
+unset i
 
 trap cleanup EXIT
 
