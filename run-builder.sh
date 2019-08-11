@@ -1,4 +1,4 @@
-#!/bin/bash -xe
+#!/bin/bash -x
 
 # Always delete instance after attempting build
 function cleanup {
@@ -16,10 +16,11 @@ REMOTE_WORKSPACE=${REMOTE_WORKSPACE:-/home/${USERNAME}/workspace/}
 INSTANCE_NAME=${INSTANCE_NAME:-builder-$(cat /proc/sys/kernel/random/uuid)}
 ZONE=${ZONE:-us-central1-f}
 INSTANCE_ARGS=${INSTANCE_ARGS:---preemptible}
+KEYNAME=builder-key
 
+set -e
 gcloud config set compute/zone ${ZONE}
 
-KEYNAME=builder-key
 # TODO Need to be able to detect whether a ssh key was already created
 ssh-keygen -t rsa -N "" -f ${KEYNAME} -C ${USERNAME} || true
 chmod 400 ${KEYNAME}*
