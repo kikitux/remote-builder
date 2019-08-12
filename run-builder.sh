@@ -8,9 +8,6 @@ function cleanup {
 # Configurable parameters
 [ -z "${COMMAND}" ] && echo "Need to set COMMAND" && exit 1;
 
-# show env
-[ "${SHOWENV}" ] && env
-
 USERNAME=${USERNAME:-admin}
 REMOTE_WORKSPACE=${REMOTE_WORKSPACE:-/home/${USERNAME}/workspace/}
 INSTANCE_NAME=${INSTANCE_NAME:-builder-$(cat /proc/sys/kernel/random/uuid)}
@@ -62,11 +59,3 @@ time gcloud compute ssh --ssh-key-file=${KEYNAME} \
 time gcloud compute scp --compress --recurse \
        ${USERNAME}@${INSTANCE_NAME}:${REMOTE_WORKSPACE}* $(pwd) \
        --ssh-key-file=${KEYNAME}
-
-set +e
-
-# show ls
-[ "${SHOWLS}" ] && ls -alh
-
-# show du
-[ "${SHOWDU}" ] && du -sh *
