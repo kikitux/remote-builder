@@ -43,8 +43,10 @@ while [ ${i} -lt ${retry} ]; do
        sleep 4
 done
 
+
 unset retry
 unset i
+
 
 trap cleanup EXIT
 set -e
