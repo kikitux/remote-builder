@@ -13,14 +13,15 @@ REMOTE_WORKSPACE=${REMOTE_WORKSPACE:-/home/${USERNAME}/workspace/}
 INSTANCE_NAME=${INSTANCE_NAME:-builder-$(cat /proc/sys/kernel/random/uuid)-${RANDOM}}
 ZONE=${ZONE:-us-central1-f}
 INSTANCE_ARGS=${INSTANCE_ARGS:---preemptible}
-KEYNAME=builder-key-$$
+KEYNAME=builder-key-${RANDOM}
+SSHKEYS=ssh-keys-${RANDOM}
 
 # create ssh KEYNAME
 [ -f ${KEYNAME} ] || {
   ssh-keygen -t rsa -N "" -f ${KEYNAME} -C ${USERNAME}
   chmod 400 ${KEYNAME}*
 
-  cat > ssh-keys-$$ <<EOF
+  cat > ${SSHKEYS} <<EOF
 ${USERNAME}:$(cat ${KEYNAME}.pub)
 EOF
 }
@@ -31,7 +32,7 @@ gcloud config set compute/zone ${ZONE}
 time gcloud compute instances create \
        ${INSTANCE_ARGS} ${INSTANCE_NAME} \
        --metadata block-project-ssh-keys=TRUE \
-       --metadata-from-file ssh-keys=ssh-keys-$$
+       --metadata-from-file ssh-keys=${SSHKEYS}
 
 retry=5
 i=0
